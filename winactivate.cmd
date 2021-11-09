@@ -149,11 +149,12 @@ for /f %%a in ('powershell -command "(Get-WmiObject Win32_OperatingSystem).Opera
             if "%force_kms38%" neq "0" (
                 if "%%b" equ "10240" set "product_key=WNMTR-4C88C-JK8YV-HQ7T2-76DF9"
                 if "%%b" equ "14393" set "product_key=DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ"
-                if "%%b" equ "17763" set "product_key=M7XTQ-FN8P6-TTKYV-9D4CC-J462D"
+                if "%%b" geq "17763" set "product_key=M7XTQ-FN8P6-TTKYV-9D4CC-J462D"
             ) else (
                 if "%%b" equ "10240" set "product_key=FWN7H-PF93Q-4GGP8-M8RF3-MDWWW"
                 if "%%b" equ "14393" set "product_key=NK96Y-D9CD8-W44CQ-R8YTK-DYJWX"
                 if "%%b" equ "17763" set "product_key=43TBQ-NH92J-XKTM7-KT3KK-P39PB"
+                if "%%b" geq "19041" set "product_key=KCNVH-YKWX8-GJJB9-H9FDT-6F7W2"
                 set "product_key_is_retail=1"
             )
         )
@@ -163,11 +164,12 @@ for /f %%a in ('powershell -command "(Get-WmiObject Win32_OperatingSystem).Opera
             if "%force_kms38%" neq "0" (
                 if "%%b" equ "10240" set "product_key=2F77B-TNFGY-69QQF-B8YKP-D69TJ"
                 if "%%b" equ "14393" set "product_key=QFFDN-GRT3P-VKWWX-X7T3R-8B639"
-                if "%%b" equ "17763" set "product_key=92NFX-8DJQP-P6BBQ-THF9C-7CG2H"
+                if "%%b" geq "17763" set "product_key=92NFX-8DJQP-P6BBQ-THF9C-7CG2H"
             ) else (
                 if "%%b" equ "10240" set "product_key=8V8WN-3GXBH-2TCMG-XHRX3-9766K"
                 if "%%b" equ "14393" set "product_key=2DBW3-N2PJG-MVHW3-G7TDK-9HKR4"
                 if "%%b" equ "17763" set "product_key=M33WV-NHY3C-R7FPM-BQGPT-239PG"
+                if "%%b" geq "19041" set "product_key=RQFNW-9TPM3-JQ73T-QV4VQ-DV9PT"
                 set "product_key_is_retail=1"
             )
         )
@@ -243,6 +245,10 @@ for /f %%a in ('powershell -command "(Get-WmiObject Win32_OperatingSystem).Opera
         set "product_key=XQQYW-NFFMW-XJPBH-K8732-CKFFD"
         set "product_key_is_retail=1"
     )
+    if "%%a" equ "191" (
+        set "product_key=QPM6N-7J2WJ-P88HH-P3YRH-YY74H"
+        set "product_key_is_retail=1"
+    )
 )
 
 
@@ -252,7 +258,7 @@ if "%product_key%" equ "XXXXX-XXXXX-XXXXX-XXXXX-XXXXX" (
     goto exit
 )
 
-cscript "%systemdrive%\Windows\System32\slmgr.vbs" /ipk "%product_key%"
+cscript /nologo "%systemdrive%\Windows\System32\slmgr.vbs" /ipk "%product_key%"
 
 if "%errorlevel%" neq "0" (
     echo An error occurred while installing the product key.
@@ -307,7 +313,7 @@ if "%errorlevel%" neq "0" (
 
 if "%product_key_is_retail%" neq "0" (
     echo Activating Windows...
-    cscript "%systemdrive%\Windows\System32\slmgr.vbs" /ato
+    cscript /nologo "%systemdrive%\Windows\System32\slmgr.vbs" /ato
 )
 
 for /f %%a in ('powershell -command "(Get-WmiObject SoftwareLicensingProduct).LicenseStatus | ForEach-Object { if ($_ -eq 1 ) { $_ } }"') do (
@@ -323,5 +329,6 @@ echo.
 goto exit
 
 :exit
+popd
 pause
 goto :eof
