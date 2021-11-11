@@ -249,6 +249,10 @@ for /f %%a in ('powershell -command "(Get-WmiObject Win32_OperatingSystem).Opera
         set "product_key=QPM6N-7J2WJ-P88HH-P3YRH-YY74H"
         set "product_key_is_retail=1"
     )
+    if "%%a" equ "203" (
+        set "product_key=KY7PN-VR6RX-83W6Y-6DDYQ-T6R4W"
+        set "product_key_is_retail=1"
+    )
 )
 
 
