@@ -43,7 +43,7 @@ for /f "tokens=6 delims=[]. " %%a in ('ver') do (
 echo Installing product key...
 set "product_key=XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"
 set "product_key_is_retail=0"
-for /f %%a in ('powershell -command "(Get-WmiObject Win32_OperatingSystem).OperatingSystemSKU"') do (
+for /f "skip=2 tokens=3 delims=." %%a in ('reg query HKLM\SYSTEM\CurrentControlSet\Control\ProductOptions /v OSProductPfn') do (
     if "%%a" equ "4" (
         if "%force_kms38%" neq "0" (
             set "product_key=NPPR9-FWDCX-D2C8J-H872K-2YT43"
@@ -320,7 +320,7 @@ if "%product_key_is_retail%" neq "0" (
     cscript /nologo "%systemdrive%\Windows\System32\slmgr.vbs" /ato
 )
 
-for /f %%a in ('powershell -command "(Get-WmiObject SoftwareLicensingProduct).LicenseStatus | ForEach-Object { if ($_ -eq 1 ) { $_ } }"') do (
+for /f %%a in ('powershell -NoProfile -Command "(Get-CimInstance -Query 'SELECT LicenseStatus FROM SoftwareLicensingProduct WHERE ApplicationId=''55c92734-d682-4d71-983e-d6ec3f16059f'' AND LicenseStatus <> 0').LicenseStatus"') do (
     if "%%a" neq "1" (
         echo Activation failed. Please check your internet connection and try again.
         echo.
