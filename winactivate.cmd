@@ -82,7 +82,7 @@ for /f "skip=2 tokens=3 delims=." %%a in ('reg query HKLM\SYSTEM\CurrentControlS
             set "product_key_is_retail=1"
         )
     )
-    if "%%a" equ "50" (
+    if "%%a" equ "49" (
         if "%force_kms38%" neq "0" (
             set "product_key=MH37W-N47XK-V7XM9-C7227-GCQG9"
         ) else (
