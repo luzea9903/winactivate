@@ -342,7 +342,7 @@ goto exit
 
 :exit
 popd
-if "%headless%" neq "0" (
+if "%headless%" equ "0" (
     pause
 )
 goto :eof
