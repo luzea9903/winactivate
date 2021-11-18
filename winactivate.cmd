@@ -5,6 +5,7 @@ pushd "%working_directory%"
 set "force_kms38=0"
 set "headless=0"
 set "skip_admin_check=0"
+set "allow_kms_transition=0"
 
 echo ================================================================
 echo winactivate - Easy-to-use Windows HWID/KMS38 Activation Script.
@@ -18,6 +19,7 @@ if "%~1" neq "" (
     if "%~1" equ "/forcekms38" set "force_kms38=1"
     if "%~1" equ "/headless" set "headless=1"
     if "%~1" equ "/skipadmincheck" set "skip_admin_check=1"
+    if "%~1" equ "/kmstokms38" set "allow_kms_transition=1"
     shift
     goto parse_arguments
 )
@@ -276,6 +278,33 @@ if "%errorlevel%" neq "0" (
     echo An error occurred while installing the product key.
     echo.
     goto exit
+)
+
+if "%product_key_is_retail%" equ "0" (
+    for /f %%a in ('powershell -NoProfile -Command "(Get-CimInstance -Query 'SELECT GracePeriodRemaining FROM SoftwareLicensingProduct WHERE ApplicationId=''55c92734-d682-4d71-983e-d6ec3f16059f'' AND LicenseStatus <> 0').GracePeriodRemaining"') do (
+        if "%%a" neq "0" if "%%a" leq "259200" (
+            if "%allow_kms_transition%" equ "1" (
+                echo Transitioning from KMS to KMS38...
+                cscript /nologo "%systemdrive%\Windows\System32\slmgr.vbs" /rearm >NUL 2>&1
+
+                if "%errorlevel%" neq "0" (
+                    echo Transition failed.
+                    echo.
+                    goto exit
+                )
+
+                reg delete "HKU\S-1-5-20\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform\PersistedTSReArmed" /f >NUL 2>&1
+                sc stop sppsvc >NUL 2>&1
+                cscript /nologo "%systemdrive%\Windows\System32\slmgr.vbs" /xpr
+            ) else (
+                echo The system is already active with KMS. Kindly rerun with /kmstokms38 to transition.
+                echo.
+                goto exit
+            )
+        )
+    )
+
+    cscript /nologo "%systemdrive%\Windows\System32\slmgr.vbs" /skms 127.0.0.1
 )
 
 if exist "%working_directory%GenuineTicket.xml" del /f "%working_directory%GenuineTicket.xml"
