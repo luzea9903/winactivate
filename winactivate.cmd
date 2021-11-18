@@ -148,7 +148,7 @@ for /f "skip=2 tokens=3 delims=." %%a in ('reg query HKLM\SYSTEM\CurrentControlS
     )
     if "%%a" equ "125" (
         for /f "tokens=6 delims=[]. " %%b in ('ver') do (
-            if "%%b" equ "19041" (
+            if "%%b" equ "19044" (
                 set "product_key=M7XTQ-FN8P6-TTKYV-9D4CC-J462D"
             ) else (
                 if "%force_kms38%" neq "0" (
@@ -166,7 +166,7 @@ for /f "skip=2 tokens=3 delims=." %%a in ('reg query HKLM\SYSTEM\CurrentControlS
     )
     if "%%a" equ "126" (
         for /f "tokens=6 delims=[]. " %%b in ('ver') do (
-            if "%%b" equ "19041" (
+            if "%%b" equ "19044" (
                 set "product_key=92NFX-8DJQP-P6BBQ-THF9C-7CG2H"
             ) else (
                 if "%force_kms38%" neq "0" (
