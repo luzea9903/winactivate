@@ -148,12 +148,13 @@ for /f "skip=2 tokens=3 delims=." %%a in ('reg query HKLM\SYSTEM\CurrentControlS
     )
     if "%%a" equ "125" (
         for /f "tokens=6 delims=[]. " %%b in ('ver') do (
-            if "%%b" geq "17763" (
+            if "%%b" gtr "17763" (
                 set "product_key=M7XTQ-FN8P6-TTKYV-9D4CC-J462D"
             ) else (
                 if "%force_kms38%" neq "0" (
                     if "%%b" equ "10240" set "product_key=WNMTR-4C88C-JK8YV-HQ7T2-76DF9"
                     if "%%b" equ "14393" set "product_key=DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ"
+                    if "%%b" equ "17763" set "product_key=M7XTQ-FN8P6-TTKYV-9D4CC-J462D"
                 ) else (
                     if "%%b" equ "10240" set "product_key=FWN7H-PF93Q-4GGP8-M8RF3-MDWWW"
                     if "%%b" equ "14393" set "product_key=NK96Y-D9CD8-W44CQ-R8YTK-DYJWX"
@@ -165,12 +166,13 @@ for /f "skip=2 tokens=3 delims=." %%a in ('reg query HKLM\SYSTEM\CurrentControlS
     )
     if "%%a" equ "126" (
         for /f "tokens=6 delims=[]. " %%b in ('ver') do (
-            if "%%b" geq "17763" (
+            if "%%b" gtr "17763" (
                 set "product_key=92NFX-8DJQP-P6BBQ-THF9C-7CG2H"
             ) else (
                 if "%force_kms38%" neq "0" (
                     if "%%b" equ "10240" set "product_key=2F77B-TNFGY-69QQF-B8YKP-D69TJ"
                     if "%%b" equ "14393" set "product_key=QFFDN-GRT3P-VKWWX-X7T3R-8B639"
+                    if "%%b" equ "17763" set "product_key=92NFX-8DJQP-P6BBQ-THF9C-7CG2H"
                 ) else (
                     if "%%b" equ "10240" set "product_key=8V8WN-3GXBH-2TCMG-XHRX3-9766K"
                     if "%%b" equ "14393" set "product_key=2DBW3-N2PJG-MVHW3-G7TDK-9HKR4"
