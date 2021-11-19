@@ -281,7 +281,7 @@ if "%errorlevel%" neq "0" (
 )
 
 if "%product_key_is_retail%" equ "0" (
-    for /f %%a in ('powershell -NoProfile -Command "(Get-CimInstance -Query 'SELECT GracePeriodRemaining FROM SoftwareLicensingProduct WHERE ApplicationId=''55c92734-d682-4d71-983e-d6ec3f16059f'' AND LicenseStatus <> 0').GracePeriodRemaining"') do (
+    for /f %%a in ('powershell -NoProfile -Command "(Get-CimInstance -Query 'SELECT GracePeriodRemaining FROM SoftwareLicensingProduct WHERE ApplicationId=''55c92734-d682-4d71-983e-d6ec3f16059f'' AND LicenseStatus = 1').GracePeriodRemaining"') do (
         if "%%a" neq "0" if "%%a" leq "259200" (
             if "%allow_kms_transition%" equ "1" (
                 echo Transitioning from KMS to KMS38...
